@@ -1,3 +1,4 @@
+import { TypeBoxTypeProvider } from "@fastify/type-provider-typebox";
 import Fastify from "fastify";
 
 const server = Fastify({
@@ -10,6 +11,6 @@ const server = Fastify({
       },
     },
   },
-});
+}).withTypeProvider<TypeBoxTypeProvider>();
 
 export default server;
