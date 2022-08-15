@@ -22,13 +22,23 @@ model User {
   id        String   @id @default(uuid())
   username  String   @unique
   email     String   @unique
-  bio       String
+  password  String
+  bio       Bio?
   role      Role     @relation(fields: [roleId], references: [id])
   roleId    Int
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now())
   replies   Reply[]
   posts     Post[]
+}
+
+model Bio {
+  id        String   @id @default(uuid())
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String   @unique
+  bio       String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
 }
 
 model Post {
