@@ -13,6 +13,9 @@ export async function put(
   const { postId } = filter;
   const { vote } = payload;
 
+  // TODO: better error message 
+  if (vote > 1 || vote < -1) throw new Error();
+
   try {
     const updatedPostVote = await prisma.userVotesOnPost.upsert({
       where: {
