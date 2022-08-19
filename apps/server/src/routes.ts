@@ -1,7 +1,7 @@
 import { FastifyInstance, FastifyPluginOptions } from "fastify";
 import postRoute from "@/routes/post.route";
 import userRoutes from "@/routes/user.route";
-import authRoutes from "@/routes/auth.routes";
+import authRoutes from "@/routes/auth.route";
 
 async function routes(
   fastify: FastifyInstance,
