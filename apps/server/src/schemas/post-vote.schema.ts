@@ -1,5 +1,6 @@
 import {
-  defaultProtectedHeaderAuthorizationSchema, defaultSchema,
+  defaultProtectedHeaderAuthorizationSchema,
+  defaultSchema,
 } from "@/helpers/defaultSchema";
 import { Type } from "@sinclair/typebox";
 import { FastifySchema } from "fastify";
@@ -12,8 +13,9 @@ export const postVotePutBodySchema = Type.Object({
   vote: Type.Number({ minimum: -1, maximum: 1 }),
 });
 
-export const postVotePutHeadersSchema =
-  defaultProtectedHeaderAuthorizationSchema;
+export const postVotePutHeadersSchema = Type.Object({
+  authorization: defaultProtectedHeaderAuthorizationSchema,
+});
 
 export const postVotePutSchema: FastifySchema = {
   ...defaultSchema,
