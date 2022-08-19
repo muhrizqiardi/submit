@@ -20,3 +20,5 @@ function getTokenFromHeader(input: string) {
     throw error;
   }
 }
+
+export default getTokenFromHeader;
