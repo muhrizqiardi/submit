@@ -1,3 +1,6 @@
+import postVoteController, {
+  PostVotePutRequest,
+} from "@/controllers/post-vote.controller";
 import { postVotePutSchema } from "@/schemas/post-vote.schema";
 import { FastifyInstance, FastifyPluginOptions } from "fastify";
 
@@ -9,7 +12,11 @@ async function postVoteRoute(
   /**
    * PUT /post-votes/:postId
    */
-  fastify.put("/:postId", { schema: postVotePutSchema }, () => null);
+  fastify.put<PostVotePutRequest>(
+    "/:postId",
+    { schema: postVotePutSchema },
+    postVoteController.put
+  );
 
   return next();
 }
