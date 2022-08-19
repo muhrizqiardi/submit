@@ -1,5 +1,6 @@
 import { TypeBoxTypeProvider } from "@fastify/type-provider-typebox";
 import Fastify from "fastify";
+import routes from "./routes";
 
 const server = Fastify({
   logger: {
@@ -12,5 +13,8 @@ const server = Fastify({
     },
   },
 }).withTypeProvider<TypeBoxTypeProvider>();
+
+server.register(require("@fastify/swagger"));
+server.register(routes);
 
 export default server;
