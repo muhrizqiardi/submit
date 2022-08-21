@@ -17,6 +17,10 @@ export const postCreateSchema: FastifySchema = {
   body: postCreateBodySchema,
 };
 
+export const postCreateChildReplyParamsSchema = Type.Object({
+  postId: Type.String({ format: "uuid" }),
+});
+
 export const postCreateChildReplyBodySchema = Type.Object({
   content: Type.String(),
 });
@@ -25,6 +29,7 @@ export const postCreateChildReplySchema: FastifySchema = {
   headers: {
     authorization: defaultProtectedHeaderAuthorizationSchema,
   },
+  params: postCreateChildReplyParamsSchema,
   body: postCreateChildReplyBodySchema,
 };
 
