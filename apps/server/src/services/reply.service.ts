@@ -1,5 +1,6 @@
 import prisma from "@/helpers/prisma";
 import {
+  replyCreateChildReplyBodySchema,
   replyDeleteOneByIdParamsSchema,
   replyGetOneByIdParamsSchema,
   replyUpdateOneByIdBodySchema,
@@ -7,12 +8,10 @@ import {
 } from "@/schemas/reply.schema";
 import { Static } from "@sinclair/typebox";
 
-export async function createChild(
+export async function createChildReply(
   parentReplyId: string,
   authorId: string,
-  payload: {
-    content: string;
-  }
+  payload: Static<typeof replyCreateChildReplyBodySchema>
 ) {
   const { content } = payload;
 
@@ -100,3 +99,10 @@ export async function deleteOneById(
     throw new Error("Internal Server Error");
   }
 }
+
+export default {
+  createChildReply,
+  getOneById,
+  updateOneById,
+  deleteOneById,
+};
