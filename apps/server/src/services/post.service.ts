@@ -2,6 +2,7 @@ import prisma from "@/helpers/prisma";
 import { Static } from "@sinclair/typebox";
 import {
   postCreateBodySchema,
+  postCreateChildReplyBodySchema,
   postDeleteOneByIdParamsSchema,
   postGetManyQuerystringSchema,
   postGetOneByIdParamsSchema,
@@ -28,8 +29,43 @@ export async function create(payload: Static<typeof postCreateBodySchema>) {
   }
 }
 
-export async function createChildReply() {
-  
+export async function createChildReply(
+  parentPostId: string,
+  authorId: string,
+  payload: Static<typeof postCreateChildReplyBodySchema>
+) {
+  const { content,  } = payload;
+
+  try {
+    const {
+      childrenReplies: [{ childReply: newChildReply }],
+    } = await prisma.post.update({
+      where: { id: parentPostId },
+      data: {
+        childrenReplies: {
+          create: {
+            childReply: {
+              create: {
+                authorId,
+                content,
+              },
+            },
+          },
+        },
+      },
+      select: {
+        childrenReplies: {
+          select: {
+            childReply: true,
+          },
+        },
+      },
+    });
+
+    return newChildReply;
+  } catch (error) {
+    throw new Error("Failed to create a new reply");
+  }
 }
 
 export async function getOneById(
@@ -191,6 +227,7 @@ export async function deleteOneById(
 
 export default {
   create,
+  createChildReply,
   getOneById,
   getMany,
   updateOneById,
