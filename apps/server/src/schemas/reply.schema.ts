@@ -28,6 +28,7 @@ export const replyGetOneByIdParamsSchema = Type.Object({
 });
 
 export const replyGetOneByIdSchema: FastifySchema = {
+  ...defaultSchema,
   params: replyGetOneByIdParamsSchema,
 };
 
@@ -40,6 +41,7 @@ export const replyUpdateOneByIdBodySchema = Type.Object({
 });
 
 export const replyUpdateOneByIdSchema: FastifySchema = {
+  ...defaultSchema,
   params: replyUpdateOneByIdParamsSchema,
   body: replyUpdateOneByIdBodySchema,
 };
@@ -49,5 +51,6 @@ export const replyDeleteOneByIdParamsSchema = Type.Object({
 });
 
 export const replyDeleteOneByIdSchema: FastifySchema = {
+  ...defaultSchema,
   params: replyDeleteOneByIdParamsSchema,
 };
