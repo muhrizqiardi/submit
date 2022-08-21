@@ -4,6 +4,8 @@ import { Static } from "@sinclair/typebox";
 import { FastifyReply, FastifyRequest } from "fastify";
 import {
   postCreateBodySchema,
+  postCreateChildReplyBodySchema,
+  postCreateChildReplyParamsSchema,
   postDeleteOneByIdParamsSchema,
   postDownvoteParamsSchema,
   postGetManyQuerystringSchema,
@@ -13,6 +15,9 @@ import {
   postUpvoteParamsSchema,
 } from "@/schemas/post.schema";
 import postService from "@/services/post.service";
+import { RouteGenericInterface } from "fastify/types/route";
+import { FastifyReplyWithPayload } from "@/helpers/FastifyReplyWithPayload";
+import getTokenFromHeader from "@/helpers/getTokenFromHeader";
 
 export interface PostCreateRequest {
   Body: Static<typeof postCreateBodySchema>;
@@ -41,10 +46,52 @@ export async function create(
   }
 }
 
+export interface PostCreateChildReplyRequest extends RouteGenericInterface {
+  Headers: {
+    authorization: Static<typeof defaultProtectedHeaderAuthorizationSchema>;
+  };
+  Params: Static<typeof postCreateChildReplyParamsSchema>;
+  Body: Static<typeof postCreateChildReplyBodySchema>;
+}
+
 /**
  * Handler for POST /posts/:postId/replies
  */
-// TODO: create handler for createChildReply
+export async function createChildReply(
+  request: FastifyRequest<PostCreateChildReplyRequest>,
+  reply: FastifyReplyWithPayload<PostCreateChildReplyRequest>
+) {
+  const {
+    headers: { authorization },
+    params: { postId },
+    body: { content },
+  } = request;
+
+  try {
+    if (authorization === undefined) throw new Error();
+    const token = getTokenFromHeader(authorization);
+    const author = await userService.getOneByToken(token);
+
+    const newChildReply = await postService.createChildReply(
+      postId,
+      author.id,
+      {
+        content,
+      }
+    );
+
+    return reply.code(201).send({
+      code: 201,
+      message: "Successfully created a reply",
+      data: newChildReply,
+    });
+  } catch (error) {
+    return reply.code(500).send({
+      code: 500,
+      message: "Failed creating a reply",
+    });
+  }
+}
 
 export interface PostGetOneByIdRequest {
   Params: Static<typeof postGetOneByIdParamsSchema>;
@@ -82,7 +129,7 @@ export interface PostGetManyRequest {
   Querystring: Static<typeof postGetManyQuerystringSchema>;
 }
 
-/** 
+/**
  * Handler for GET /posts
  */
 export async function getMany(
@@ -232,6 +279,7 @@ export async function deleteOneById(
 
 export default {
   create,
+  createChildReply,
   getOneById,
   getMany,
   updateOneById,
