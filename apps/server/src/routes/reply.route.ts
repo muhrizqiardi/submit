@@ -13,11 +13,11 @@ async function replyRoute(
   next: () => void
 ) {
   /**
-   * POST /replies/:parentReply/replies
+   * POST /replies/:parentReplyId/replies
    * Create a child reply of a reply
    */
   fastify.post(
-    "/:parentReply/replies",
+    "/:parentReplyId/replies",
     { schema: replyCreateChildReplySchema },
     replyController.createChildReply
   );
