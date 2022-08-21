@@ -52,3 +52,7 @@ export async function put(
     });
   }
 }
+
+export default {
+  put,
+};
