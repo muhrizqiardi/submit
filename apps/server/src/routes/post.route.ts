@@ -9,13 +9,12 @@ import postController, {
   PostUpvoteRequest,
 } from "@/controllers/post.controller";
 import {
+  postCreateChildReplySchema,
   postCreateSchema,
   postDeleteOneByIdSchema,
-  postDownvoteSchema,
   postGetManySchema,
   postGetOneByIdSchema,
   postUpdateOneByIdSchema,
-  postUpvoteSchema,
 } from "@/schemas/post.schema";
 
 async function postRoute(
@@ -37,7 +36,11 @@ async function postRoute(
    * POST /posts/:postId/replies
    * Create a child reply of a post
    */
-  fastify.post("/:postId/replies", () => null);
+  fastify.post(
+    "/:postId/replies",
+    { schema: postCreateChildReplySchema },
+    postController.createChildReply
+  );
 
   /**
    * GET /posts/:postId
