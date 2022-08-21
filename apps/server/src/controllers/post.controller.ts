@@ -18,6 +18,9 @@ export interface PostCreateRequest {
   Body: Static<typeof postCreateBodySchema>;
 }
 
+/**
+ * Handler for POST /posts
+ */
 export async function create(
   request: FastifyRequest<PostCreateRequest>,
   reply: FastifyReply
@@ -38,10 +41,18 @@ export async function create(
   }
 }
 
+/**
+ * Handler for POST /posts/:postId/replies
+ */
+// TODO: create handler for createChildReply
+
 export interface PostGetOneByIdRequest {
   Params: Static<typeof postGetOneByIdParamsSchema>;
 }
 
+/**
+ * Handler for GET /posts/:postId
+ */
 export async function getOneById(
   request: FastifyRequest<PostGetOneByIdRequest>,
   reply: FastifyReply
@@ -71,6 +82,9 @@ export interface PostGetManyRequest {
   Querystring: Static<typeof postGetManyQuerystringSchema>;
 }
 
+/** 
+ * Handler for GET /posts
+ */
 export async function getMany(
   request: FastifyRequest<PostGetManyRequest>,
   reply: FastifyReply
@@ -101,6 +115,9 @@ export interface PostUpdateOneByIdRequest {
   Body: Static<typeof postUpdateOneByIdBodySchema>;
 }
 
+/**
+ * Handler for PATCH /posts/:postId
+ */
 export async function updateOneById(
   request: FastifyRequest<PostUpdateOneByIdRequest>,
   reply: FastifyReply
@@ -129,6 +146,10 @@ export interface PostUpvoteRequest {
   };
 }
 
+/**
+ * Handler for /:postId/upvote
+ * @deprecated
+ */
 export async function upvote(
   request: FastifyRequest<PostUpvoteRequest>,
   reply: FastifyReply
@@ -159,6 +180,10 @@ export interface PostDownvoteRequest {
   };
 }
 
+/**
+ * Handler for /:postId/downvote
+ * @deprecated
+ */
 export async function downvote(
   request: FastifyRequest<PostDownvoteRequest>,
   reply: FastifyReply
