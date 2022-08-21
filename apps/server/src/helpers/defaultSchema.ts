@@ -21,7 +21,7 @@ export const defaultResponse4xxSchema = Type.Object({
 });
 
 export const defaultResponse401Schema = Type.Object({
-  code: Type.Number({ default: 400 }),
+  code: Type.Number({ default: 401 }),
   message: Type.String({ default: "Unauthorized" }),
 });
 
