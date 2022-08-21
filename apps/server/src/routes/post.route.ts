@@ -2,11 +2,9 @@ import { FastifyInstance, FastifyPluginOptions } from "fastify";
 import postController, {
   PostCreateRequest,
   PostDeleteOneById,
-  PostDownvoteRequest,
   PostGetManyRequest,
   PostGetOneByIdRequest,
   PostUpdateOneByIdRequest,
-  PostUpvoteRequest,
 } from "@/controllers/post.controller";
 import {
   postCreateChildReplySchema,
