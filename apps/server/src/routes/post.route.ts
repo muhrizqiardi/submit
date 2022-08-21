@@ -81,20 +81,6 @@ async function postRoute(
     postController.deleteOneById
   );
 
-  // fastify.put<PostUpvoteRequest>(
-  //   "/:postId/upvote",
-  //   {
-  //     schema: postUpvoteSchema,
-  //   },
-  //   postController.upvote
-  // );
-
-  // fastify.put<PostDownvoteRequest>(
-  //   "/:postId/downvote",
-  //   { schema: postDownvoteSchema },
-  //   postController.downvote
-  // );
-
   return next();
 }
 
