@@ -24,7 +24,7 @@ export interface ReplyCreateChildReplyRequest extends RouteGenericInterface {
 }
 
 /**
- * Handler for POST /replies/:parentReply/replies
+ * Handler for POST /replies/:parentReplyId/replies
  */
 export async function createChildReply(
   request: FastifyRequest<ReplyCreateChildReplyRequest>,
