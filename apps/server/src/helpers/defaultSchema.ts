@@ -26,7 +26,7 @@ export const defaultResponse401Schema = Type.Object({
 });
 
 export const defaultResponse5xxSchema = Type.Object({
-  code: Type.Number({ default: 400 }),
+  code: Type.Number({ default: 500 }),
   message: Type.String({ default: "Internal Server Error" }),
 });
 
