@@ -1,5 +1,5 @@
 import replyVoteController from "@/controllers/reply-vote.controller";
-import { postVotePutSchema } from "@/schemas/post-vote.schema";
+import { replyVotePutSchema } from "@/schemas/reply-vote.schema";
 import { FastifyInstance, FastifyPluginOptions } from "fastify";
 
 async function replyVoteRoute(
@@ -8,11 +8,11 @@ async function replyVoteRoute(
   next: () => void
 ) {
   /**
-   * PUT /reply-votes/:postId
+   * PUT /reply-votes/:replyId
    */
   fastify.put(
-    "/:postId",
-    { schema: postVotePutSchema },
+    "/:replyId",
+    { schema: replyVotePutSchema },
     replyVoteController.put
   );
 
