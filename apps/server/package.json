@@ -6,9 +6,10 @@
   "author": "Muhammad Rizqi Ardiansyah <rizqi.jpg@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "dev:start": "ts-node-dev -r tsconfig-paths/register src/index.ts",
-    "build": "tsc",
-    "production:start": "ts-node ./src/index.ts"
+    "server:watch": "ts-node-dev -r tsconfig-paths/register src/index.ts",
+    "server:build": "tsc",
+    "db-dev:up": "docker compose -f docker-compose-dev.yml up",
+    "db-dev:down": "docker compose -f docker-compose-dev.yml down"
   },
   "dependencies": {
     "@fastify/swagger": "^7.4.1",
