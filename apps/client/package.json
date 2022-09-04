@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "client:dev": "next dev",
+    "client:test": "jest",
     "client:build": "next build",
     "client:start": "next start",
     "ladle:dev": "ladle dev",
@@ -11,9 +12,11 @@
   },
   "dependencies": {
     "@ladle/react": "^2.1.0",
+    "axios": "^0.27.2",
     "next": "12.2.4",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-hook-form": "^7.34.2",
     "swr": "^1.3.0"
   },
   "devDependencies": {
