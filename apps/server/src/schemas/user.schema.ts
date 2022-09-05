@@ -3,7 +3,11 @@ import { Type } from "@sinclair/typebox";
 import { FastifySchema } from "fastify";
 
 export const userCreateBodySchema = Type.Object({
-  username: Type.String({ pattern: "^S+w{8,32}S{1,}" }),
+  username: Type.String({
+    minLength: 3,
+    maxLength: 24,
+    pattern: "^[A-Za-z][A-Za-z0-9_]{7,29}$",
+  }),
   email: Type.String({ format: "email" }),
   password: Type.String({ minLength: 8 }),
   role: StringEnum(["ADMIN", "USER"]),
@@ -25,7 +29,13 @@ export const userGetManyQuerystringSchema = Type.Object({
   limit: Type.Optional(Type.Number({ default: 10 })),
   page: Type.Optional(Type.Number({ default: 1 })),
   email: Type.Optional(Type.String({ format: "email" })),
-  username: Type.Optional(Type.String({ pattern: "^S+w{8,32}S{1,}" })),
+  username: Type.Optional(
+    Type.String({
+      minLength: 3,
+      maxLength: 24,
+      pattern: "^[A-Za-z][A-Za-z0-9_]{7,29}$",
+    })
+  ),
   role: Type.Optional(StringEnum(["ADMIN", "USER"])),
   orderBy: Type.Optional(StringEnum(["createdAt", "updatedAt"])),
   sort: Type.Optional(StringEnum(["asc", "desc"])),
