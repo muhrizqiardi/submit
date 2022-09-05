@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import PostsFeedItem from "./PostsFeedItem";
 
 export interface PostsFeedProps {
@@ -9,6 +10,13 @@ export interface PostsFeedProps {
 }
 
 function PostsFeed(props: PostsFeedProps) {
+  const [windowIsAvailable, setWindowIsAvailable] = useState<boolean>(false);
+  useEffect(() => {
+    setWindowIsAvailable(true);
+  }, []);
+
+  if (!windowIsAvailable) return null;
+
   return (
     <>
       <div className="mb-4 p-4 rounded-lg bg-custom-light text-custom-dark">
