@@ -21,10 +21,9 @@ export async function createToken(input: {
     if (email === undefined && username === undefined)
       throw new Error("Invalid Request");
 
-    const user = await prisma.user.findUnique({
+    const user = await prisma.user.findFirst({
       where: {
-        email,
-        username,
+        OR: [{ username }, { email }],
       },
       select: {
         id: true,
