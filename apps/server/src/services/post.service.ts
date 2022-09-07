@@ -34,7 +34,7 @@ export async function createChildReply(
   authorId: string,
   payload: Static<typeof postCreateChildReplyBodySchema>
 ) {
-  const { content,  } = payload;
+  const { content } = payload;
 
   try {
     const {
