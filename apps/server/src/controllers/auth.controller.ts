@@ -1,10 +1,9 @@
 import { defaultProtectedHeaderAuthorizationSchema } from "@/helpers/defaultSchema";
 import { Static } from "@sinclair/typebox";
 import { FastifyReply, FastifyRequest } from "fastify";
-import {
-  authCreateTokenBodySchema,
-} from "@/schemas/auth.schema";
+import { authCreateTokenBodySchema } from "@/schemas/auth.schema";
 import authService from "@/services/auth.service";
+import userService from "@/services/user.service";
 
 export type AuthCreateTokenRequest = {
   Body: Static<typeof authCreateTokenBodySchema>;
@@ -52,12 +51,19 @@ export async function checkTokenIsValid(
   } = request;
   try {
     const token = authorization.split(" ")[1];
+    if (!token) throw new Error("Token is not valid");
+
     const tokenIsValid = await authService.checkTokenIsValid(token);
+    const user = await userService.getOneByToken(token);
 
     if (!tokenIsValid) throw new Error("Token is not valid");
     return reply.code(200).send({
       code: 200,
       message: "OK",
+      data: {
+        token,
+        user,
+      },
     });
   } catch (error) {
     if (error instanceof Error)
