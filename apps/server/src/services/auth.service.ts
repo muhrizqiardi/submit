@@ -67,10 +67,9 @@ export async function checkTokenIsValid(token: string): Promise<boolean> {
       env.secretKey
     ) as JwtPayload;
 
-    const user = await prisma.user.findUnique({
+    const user = await prisma.user.findFirst({
       where: {
-        email: jwtPayload.email,
-        username: jwtPayload.username,
+        OR: [{ username: jwtPayload.username }, { email: jwtPayload.email }],
       },
       select: {
         id: true,
@@ -81,7 +80,7 @@ export async function checkTokenIsValid(token: string): Promise<boolean> {
       },
     });
 
-    if (user !== undefined || user !== null) throw new Error();
+    if (user === undefined || user === null) throw new Error();
 
     return true;
   } catch (error) {
