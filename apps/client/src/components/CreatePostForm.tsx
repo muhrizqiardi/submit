@@ -1,32 +1,69 @@
-import { FormEvent } from "react";
+import axiosInstance from "@/helpers/axiosInstance";
+import useError from "@/hooks/useError";
+import { SubmitHandler, useForm } from "react-hook-form";
 
-function CreatePostForm() {
-  const submitHandler = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+interface Inputs {
+  title: string;
+  link?: string;
+  content?: string;
+}
 
-    const formData = new FormData(event.currentTarget);
-    const formObject = Object.fromEntries(formData) as {
-      title: string;
-      link?: string;
-      content?: string;
+interface CreatePostFormProps {
+  user: {
+    username: string;
+    email: string;
+    id: string;
+    role: {
+      id: number;
+      name: string;
+      createdAt: string;
+      updatedAt: string;
     };
+    createdAt: string;
+    updatedAt: string;
+  } | null;
+}
 
-    return window.location.pathname
+function CreatePostForm(props: CreatePostFormProps) {
+  const { register, handleSubmit } = useForm<Inputs>();
+  const { errorMessage, isError, setError } = useError();
+  const onSubmit: SubmitHandler<Inputs> = async (data) => {
+    let requestData = { ...data, authorId: props.user?.id ?? "" };
+    if (requestData.link?.length === 0) delete requestData.link;
+    if (requestData.content?.length === 0) delete requestData.content;
+
+    try {
+      const result = await axiosInstance().post("/posts", requestData);
+
+      if (!result) throw new Error("");
+    } catch (error) {
+      if (error instanceof Error) {
+        setError(
+          true,
+          `Can not create new post${error.message ? ":" : ""} ${error.message}`
+        );
+        console.error(error);
+      }
+    }
   };
 
   return (
-    <form onSubmit={submitHandler}>
-      <label>
+    <form
+      className="mb-12 flex flex-col gap-4"
+      onSubmit={handleSubmit(onSubmit)}
+    >
+      <h1 className="mb-4 text-xl font-bold">New Post</h1>
+      <label className="flex flex-col gap-2">
         Post Title
-        <input type="text" name="title" required />
+        <input type="text" {...register("title")} required />
       </label>
-      <label>
+      <label className="flex flex-col gap-2">
         Post Link (optional)
-        <input type="text" name="link" />
+        <input type="url" {...register("link")} />
       </label>
-      <label>
+      <label className="flex flex-col gap-2">
         Post Self Text (optional)
-        <input type="text" name="content" />
+        <textarea {...register("content")} />
       </label>
       <button
         type="submit"
@@ -34,6 +71,11 @@ function CreatePostForm() {
       >
         Submit Post
       </button>
+      {isError ? (
+        <div className="p-4 border border-red-400  flex items-center justify-center">
+          <p>{errorMessage}</p>
+        </div>
+      ) : null}
     </form>
   );
 }
