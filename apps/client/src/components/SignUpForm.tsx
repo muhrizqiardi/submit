@@ -28,7 +28,7 @@ function SignUpForm() {
           username: string;
           password: string;
         };
-      }>("/users", data);
+      }>("/users", { ...data, role: "USER" });
       if (response) window.location.pathname = "/sign-in";
     } catch (error) {
       setError(true, "Failed to sign up");
@@ -53,7 +53,12 @@ function SignUpForm() {
       </label>
       <label className="flex flex-col">
         Password
-        <input type="password" {...register("password")} minLength={8} required />
+        <input
+          type="password"
+          {...register("password")}
+          minLength={8}
+          required
+        />
       </label>
       <button
         type="submit"
