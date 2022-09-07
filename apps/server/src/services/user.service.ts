@@ -83,10 +83,9 @@ export async function getOneByToken(token: string) {
       env.secretKey
     ) as JwtPayload;
 
-    const user = await prisma.user.findUnique({
+    const user = await prisma.user.findFirst({
       where: {
-        email: jwtPayload.email,
-        username: jwtPayload.username,
+        OR: [{ username: jwtPayload.username }, { email: jwtPayload.email }],
       },
       select: {
         id: true,
