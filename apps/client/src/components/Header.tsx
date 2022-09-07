@@ -15,8 +15,8 @@ function Header(props: { isLoggedIn?: boolean; username?: string }) {
               </a>
             ) : null}
             {!props.isLoggedIn ? (
-              <a href="/me" className="hover:underline">
-                Log in
+              <a href="/sign-in" className="hover:underline">
+                Sign in
               </a>
             ) : null}
           </p>
